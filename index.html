@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Y - 你的社交网络</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar">
+    <a href="#" class="sidebar-logo" onclick="switchView('home')"><svg viewBox="0 0 24 24"><path d="M12 14.2L5.6 4H2l7.8 13.2V20h4.4v-2.8L22 4h-3.6z"/></svg></a>
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-page="home" onclick="switchView('home')" title="首页"><svg viewBox="0 0 24 24"><path d="M21.591 7.146L12.52 1.157c-.316-.21-.724-.21-1.04 0l-9.071 5.99c-.26.173-.409.456-.409.757v13.183c0 .502.418.913.929.913h5.8a.93.93 0 00.929-.913v-7.075h3.684v7.075c0 .502.418.913.929.913h5.8a.93.93 0 00.929-.913V7.903c0-.3-.15-.584-.408-.757z"/></svg><span class="nav-label">首页</span></a>
+      <a href="#" class="nav-item" data-page="explore" onclick="switchView('explore')" title="探索"><svg viewBox="0 0 24 24"><path d="M10.25 3.75c-3.59 0-6.5 2.91-6.5 6.5s2.91 6.5 6.5 6.5c1.795 0 3.419-.726 4.596-1.904 1.178-1.177 1.904-2.801 1.904-4.596 0-3.59-2.91-6.5-6.5-6.5z"/></svg><span class="nav-label">探索</span></a>
+      <a href="#" class="nav-item" data-page="messages" onclick="switchView('messages')" title="消息"><svg viewBox="0 0 24 24"><path d="M1.998 5.5c0-1.381 1.119-2.5 2.5-2.5h15c1.381 0 2.5 1.119 2.5 2.5v13c0 1.381-1.119 2.5-2.5 2.5h-15c-1.381 0-2.5-1.119-2.5-2.5v-13z"/></svg><span class="nav-label">消息</span></a>
+      <a href="#" class="nav-item" data-page="profile" onclick="switchView('profile')" title="个人资料"><svg viewBox="0 0 24 24"><path d="M5.651 19h12.698c-.337-1.8-1.023-3.21-1.945-4.19C15.318 13.65 13.838 13 12 13s-3.317.65-4.404 1.81c-.922.98-1.608 2.39-1.945 4.19z"/></svg><span class="nav-label">个人资料</span></a>
+      <button class="sidebar-post-btn" onclick="switchView('home');setTimeout(function(){var el=document.getElementById('composerText');if(el)el.focus();},100)"><span class="btn-full">Y 一下</span><span class="btn-short"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:#fff"><path d="M23 3c-6.62-.1-10.38 2.421-13.05 6.03C7.29 12.61 6 17.331 6 22h2c0-1.007.07-2.012.19-3H12c4.1 0 7.48-3.082 7.94-7.054C22.79 10.147 23.17 6.359 23 3z"/></svg></span></button>
+    </nav>
+    <div class="sidebar-user" onclick="showUserMenu(event)"><div class="sidebar-user-avatar"><span>小</span></div><div class="sidebar-user-info"><div class="sidebar-user-name">小明</div><div class="sidebar-user-handle">@xiaoming</div></div><div class="sidebar-user-more"><svg viewBox="0 0 24 24"><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2z"/></svg></div></div>
+  </aside>
+  <main class="feed">
+    <div class="feed-header"><div class="feed-header-top"><h2>首页</h2></div><div class="feed-tabs" id="feedTabs"><button class="feed-tab active" data-tab="forYou" onclick="switchTab('forYou')">为你推荐</button><button class="feed-tab" data-tab="following" onclick="switchTab('following')">正在关注</button></div></div>
+    <div class="view-section active" id="viewHome"><div class="composer"><div class="composer-avatar"><span>小</span></div><div class="composer-input-area"><textarea class="composer-textarea" id="composerText" placeholder="发生了什么？" rows="3"></textarea><div class="composer-actions"><div class="composer-tools"><button class="composer-tool" title="图片"><svg viewBox="0 0 24 24"><path d="M3 5.5C3 4.119 4.119 3 5.5 3h13C19.881 3 21 4.119 21 5.5v13c0 1.381-1.119 2.5-2.5 2.5h-13C4.119 21 3 19.881 3 18.5v-13z"/></svg></button></div><button class="composer-submit" id="composerSubmit">Y 一下</button></div></div></div><div id="feed"></div></div>
+    <div class="view-section" id="viewProfile"><div id="profileContent"></div></div>
+    <div class="view-section" id="viewMessages"><div class="messages-layout"><div class="messages-sidebar" id="messagesSidebar"></div><div class="messages-main"><div class="chat-empty" id="chatEmpty"><svg viewBox="0 0 24 24"><path d="M1.998 5.5c0-1.381 1.119-2.5 2.5-2.5h15c1.381 0 2.5 1.119 2.5 2.5v13c0 1.381-1.119 2.5-2.5 2.5h-15c-1.381 0-2.5-1.119-2.5-2.5v-13z"/></svg><p>选择一个对话开始聊天</p></div><div class="chat-view" id="chatView"><div class="chat-header"><div class="chat-header-avatar" id="chatHeaderAvatar"></div><div class="chat-header-info"><div class="chat-header-name" id="chatHeaderName"></div><div class="chat-header-status">在线</div></div></div><div class="chat-messages" id="chatMessages"></div><div class="chat-input-area"><input class="chat-input" id="chatInput" placeholder="发送消息" /><button class="chat-send-btn" id="chatSendBtn"><svg viewBox="0 0 24 24"><path d="M2.003 21L23 12 2.003 3 2 10l15 2-15 2 .003 7z"/></svg></button></div></div></div></div></div>
+    <div class="view-section" id="viewExplore"><div class="explore-header"><input id="exploreSearch" placeholder="搜索 Y" /></div><div class="explore-categories" id="exploreCategories"></div><div class="explore-results" id="exploreResults"></div></div>
+  </main>
+  <aside class="right-sidebar">
+    <div class="search-box"><input type="text" placeholder="搜索 Y" onkeydown="if(event.key==='Enter'&&this.value.trim())doSearch(this.value)" /></div>
+    <div class="sidebar-card"><div class="sidebar-card-header">热门趋势</div><div id="trends"></div></div>
+    <div class="sidebar-card"><div class="sidebar-card-header">谁去关注</div><div id="followSuggestions"></div></div>
+    <footer class="sidebar-footer" id="sidebarFooter"></footer>
+  </aside>
+</div>
+<div class="post-detail-overlay" id="postDetailOverlay" onclick="if(event.target===this)closePostDetail()"><div class="post-detail-content" id="postDetailContent"></div></div>
+<nav class="mobile-bottom-nav" id="mobileNav"><a href="#" class="nav-item active" onclick="switchView('home')"><svg viewBox="0 0 24 24"><path d="M21.591 7.146"/></svg><span>首页</span></a><a href="#" class="nav-item" onclick="switchView('explore')"><svg viewBox="0 0 24 24"><path d="M10.25 3.75"/></svg><span>探索</span></a><a href="#" class="nav-item" onclick="switchView('messages')"><svg viewBox="0 0 24 24"><path d="M1.998 5.5"/></svg><span>消息</span></a><a href="#" class="nav-item" onclick="switchView('profile')"><svg viewBox="0 0 24 24"><path d="M5.651 19"/></svg><span>我</span></a></nav>
+<button class="mobile-compose-fab" id="mobileFab" onclick="switchView('home');setTimeout(function(){var el=document.getElementById('composerText');if(el)el.focus();},100)"><svg viewBox="0 0 24 24"><path d="M23 3c-6.62-.1-10.38 2.421-13.05 6.03C7.29 12.61 6 17.331 6 22h2c0-1.007.07-2.012.19-3H12c4.1 0 7.48-3.082 7.94-7.054C22.79 10.147 23.17 6.359 23 3z"/></svg></button>
+<input type="file" id="imageInput" accept="image/*" style="display:none" />
+<div class="toast" id="toast"></div>
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-card">
+    <div class="login-logo"><svg viewBox="0 0 24 24"><path d="M12 14.2L5.6 4H2l7.8 13.2V20h4.4v-2.8L22 4h-3.6z"/></svg></div>
+    <div class="login-title">欢迎来到 Y</div>
+    <div class="login-subtitle">发现新鲜事，分享你的想法</div>
+    <button class="login-btn login-btn-wechat" onclick="startWechatLogin()"><svg viewBox="0 0 24 24"><path d="M8.5 2C4.36 2 1 4.96 1 8.5c0 1.93.96 3.67 2.5 4.8l-.65 2.35 2.57-1.54"/></svg>使用微信登录</button>
+    <button class="login-btn login-btn-phone" onclick="guestLogin()">先随便看看</button>
+    <div class="login-terms">继续即表示你同意 Y 的 <a href="#">服务条款</a> 和 <a href="#">隐私政策</a></div>
+    <div class="login-qr-section" id="loginQrSection"><div class="login-qr-box" id="loginQrBox"></div><div class="login-qr-hint">请使用微信扫描二维码</div><button class="login-qr-btn" onclick="completeWechatLogin()">已扫码，确认登录</button></div>
+  </div>
+</div>
+<script src="script.js"></script>
+<script src="api.js"></script>
+</body>
+</html>
